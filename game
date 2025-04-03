@@ -1,0 +1,400 @@
+package application;
+
+import application.model.Human;
+
+import java.util.Scanner;
+
+public class game {
+
+    private Scanner input = new Scanner(System.in);
+    private Human[] users = new Human[0];
+
+    public void run() {
+        while (true) {
+            System.out.print("Введите команду: ");
+            String command = input.nextLine();
+
+            if (command.equalsIgnoreCase("help")) {
+                help();
+            } else if (command.equalsIgnoreCase("all_user")) {
+                allUsers();
+            } else if (command.equalsIgnoreCase("register")) {
+                register();
+            } else if (command.equalsIgnoreCase("level1")) {
+                level1();
+            } else if (command.equalsIgnoreCase("level2")) {
+                if (!level1Completed) {
+                    System.out.println("Сначала пройдите уровень 1! Введите 'level1'.");
+                } else {
+                    level2();
+                }
+            } else if (command.equalsIgnoreCase("level3")) {
+                if (!level2Completed) {
+                    System.out.println("Сначала пройдите уровень 2! Введите 'level2'.");
+                } else {
+                    level3();
+                }
+            } else if (command.equalsIgnoreCase("level4")) {
+                if (!level3Completed) {
+                    System.out.println("Сначала пройдите уровень 3! Введите 'level3'.");
+                } else {
+                    level4();
+                }
+            } else if (command.equalsIgnoreCase("level5")) {
+                if (!level4Completed) {
+                    System.out.println("Сначала пройдите уровень 4! Введите 'level4'.");
+                } else {
+                    level5();
+                }
+            } else if (command.equalsIgnoreCase("level6")) {
+                if (!level5Completed) {
+                    System.out.println("Сначала пройдите уровень 5! Введите 'level5'.");
+                } else {
+                    level6();
+                }
+            } else if (command.equalsIgnoreCase("level7")) {
+                if (!level6Completed) {
+                    System.out.println("Сначала пройдите уровень 6! Введите 'level6'.");
+                } else {
+                    level7();
+                }
+            } else if (command.equalsIgnoreCase("level8")) {
+                if (!level7Completed) {
+                    System.out.println("Сначала пройдите уровень 7! Введите 'level7'.");
+                } else {
+                    level8();
+                }
+            } else if (command.equalsIgnoreCase("level9")) {
+                if (!level8Completed) {
+                    System.out.println("Сначала пройдите уровень 8! Введите 'level8'.");
+                } else {
+                    level9();
+                }
+            } else if (command.equalsIgnoreCase("level10")) {
+                if (!level9Completed) {
+                    System.out.println("Сначала пройдите уровень 9! Введите 'level9'.");
+                } else {
+                    level10();
+                }
+            } else if (command.equalsIgnoreCase("exit")) {
+                System.out.println("Выход из программы...");
+                break;
+            } else {
+                System.out.println("Неизвестная команда. Введите 'help' для просмотра списка команд.");
+            }
+        }
+    }
+
+
+
+    private Human currentUser = null;
+
+    private void register() {
+        System.out.println("Регистрация нового игрока");
+
+        String username;
+        while (true) {
+            System.out.print("Введите имя пользователя: ");
+            username = input.nextLine().trim();
+
+            if (username.isEmpty()) {
+                System.out.println("Ошибка: имя пользователя не может быть пустым!");
+            } else if (username.contains(" ")) {
+                System.out.println("Ошибка: имя пользователя не должно содержать пробелы!");
+            } else if (userExists(username)) {
+                System.out.println("Ошибка: пользователь с таким именом уже существует!");
+            } else {
+                break;
+            }
+        }
+
+        String password, confirmPassword;
+        while (true) {
+            System.out.print("Введите пароль: ");
+            password = input.nextLine().trim();
+
+            if (password.length() < 4) {
+                System.out.println("Ошибка: пароль должен содержать минимум 4 символов!");
+                continue;
+            }
+
+            System.out.print("Повторите пароль: ");
+            confirmPassword = input.nextLine().trim();
+
+            if (!password.equals(confirmPassword)) {
+                System.out.println("Ошибка: пароли не совпадают! Попробуйте ещё раз.");
+            } else {
+                break;
+            }
+        }
+
+        Human newUser = new Human(username, password);
+        Human[] temp = new Human[users.length + 1];
+        System.arraycopy(users, 0, temp, 0, users.length);
+        users = temp;
+        users[users.length - 1] = newUser;
+        currentUser = newUser;
+
+        System.out.println("Игрок успешно зарегистрирован! Теперь чтобы поиграть напишите level1");
+    }
+
+    private boolean userExists(String username) {
+        for (Human user : users) {
+            if (user.getUsername().equalsIgnoreCase(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private void allUsers() {
+        for (Human user : users) {
+            System.out.println("зарегистрированные игроки:");
+            System.out.println(user);
+        }
+    }
+
+    private void help() {
+        System.out.println("Доступные команды:");
+        System.out.println("1. help - показать список команд");
+        System.out.println("2. register - зарегистрировать нового пользователя");
+        System.out.println("3. exit - выйти из программы");
+        System.out.println("4. all_user - вывод всех пользователей");
+        System.out.println("5. level1 - вход в игру(но для начало обязательно зарегистрируйся)");
+    }
+
+    private boolean level1Completed = false;
+    private boolean level2Completed = false;
+    private boolean level3Completed = false;
+    private boolean level4Completed = false;
+    private boolean level5Completed = false;
+    private boolean level6Completed = false;
+    private boolean level7Completed = false;
+    private boolean level8Completed = false;
+    private boolean level9Completed = false;
+
+    private void level1() {
+        if (currentUser == null) {
+            System.out.println("Вы должны зарегистрироваться перед началом игры! Введите 'register'.");
+            return;
+        }
+
+        System.out.println("Уровень 1: Основы Java");
+        System.out.println("Что такое шаблон для создания объектов?");
+        System.out.println("1 - Класс");
+        System.out.println("2 - Переменные");
+        System.out.println("3 - Сам объект");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("1")) {
+            System.out.println("Верно! Переход на следующий уровень. Введите 'level2'.");
+            level1Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+
+
+
+        }
+    }
+
+    private void level2() {
+        if (!level1Completed) {
+            System.out.println("Сначала пройдите уровень 1! Введите 'level1'.");
+            return;
+        }
+
+        System.out.println("Уровень 2: Переменные и типы данных");
+        System.out.println("Какой тип данных используется для хранения целых чисел?");
+        System.out.println("1 - double");
+        System.out.println("2 - int");
+        System.out.println("3 - boolean");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("2")) {
+            System.out.println("Верно! вы переходите на следующий уровень. Введите 'level3'.");
+            level2Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+    private void level3() {
+        if (!level2Completed) {
+            System.out.println("Сначала пройдите уровень 2! Введите 'level2'.");
+            return;
+        }
+
+        System.out.println("Уровень 3: Условные операторы");
+        System.out.println("Какой оператор используется для проверки равенства двух значений?");
+        System.out.println("1 - ==");
+        System.out.println("2 - =");
+        System.out.println("3 - !=");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("1")) {
+            System.out.println("Верно!  вы переходите на следующий уровень. Введите 'level4'.");
+            level3Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+    private void level4() {
+        if (!level3Completed) {
+            System.out.println("Сначала пройдите уровень 3! Введите 'level3'.");
+            return;
+        }
+
+        System.out.println("Уровень 4: Циклы");
+        System.out.println("Какой цикл выполняется минимум один раз, даже если условие ложно?");
+        System.out.println("1 - for");
+        System.out.println("2 - while");
+        System.out.println("3 - do-while");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("3")) {
+            System.out.println("Верно!  вы переходите на следующий уровень. Введите 'level5'.");
+            level4Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+    private void level5() {
+        if (!level4Completed) {
+            System.out.println("Сначала пройдите уровень 4! Введите 'level4'.");
+            return;
+        }
+
+        System.out.println("Уровень 5: Объектно-ориентированное программирование");
+        System.out.println("Какой принцип ООП отвечает за скрытие деталей реализации?");
+        System.out.println("1 - Инкапсуляция");
+        System.out.println("2 - Наследование");
+        System.out.println("3 - Полиморфизм");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("1")) {
+            System.out.println("Верно! Переход на следующий уровень. Введите 'level6'.");
+            level5Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+    private void level6() {
+        if (!level5Completed) {
+            System.out.println("Сначала пройдите уровень 5! Введите 'level5'.");
+            return;
+        }
+
+        System.out.println("Уровень 6:");
+        System.out.println("Какой тип данных используется для хранения множества однотипных элементов?");
+        System.out.println("1 - Список ");
+        System.out.println("2 - Массив");
+        System.out.println("3 - Коллекция");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("2")) {
+            System.out.println("Верно!  вы переходите на следующий уровень. Введите 'level7'.");
+            level6Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+    private void level7() {
+        if (!level6Completed) {
+            System.out.println("Сначала пройдите уровень 6! Введите 'level6'.");
+            return;
+        }
+
+        System.out.println("Уровень 7: Коллекции");
+        System.out.println("Какой интерфейс используется для работы с коллекциями, которые могут хранить элементы в определённом порядке?");
+        System.out.println("1 - List");
+        System.out.println("2 - Set");
+        System.out.println("3 - Map");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("1")) {
+            System.out.println("Верно!  вы переходите на следующий уровень. Введите 'level8'.");
+            level7Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+
+        }
+    }
+
+    private void level8() {
+        if (!level7Completed) {
+            System.out.println("Сначала пройдите уровень 7! Введите 'level7'.");
+            return;
+        }
+
+        System.out.println("Уровень 8: Лямбда-выражения");
+        System.out.println("Какой символ используется для создания лямбда-выражений в Java?");
+        System.out.println("1 - ? ->");
+        System.out.println("2 - {}");
+        System.out.println("3 - ()");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("3")) {
+            System.out.println("Верно!  вы переходите на следующий уровень. Введите 'level9'.");
+            level8Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+    private void level9() {
+        if (!level8Completed) {
+            System.out.println("Сначала пройдите уровень 8! Введите 'level8'.");
+            return;
+        }
+
+        System.out.println("Уровень 9: Абстракция");
+        System.out.println("Какой модификатор используется для создания абстрактных классов и методов?");
+        System.out.println("1 - static");
+        System.out.println("2 -  abstract");
+        System.out.println("3 - final");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("2")) {
+            System.out.println("Верно! вы переходите на следующий уровень. Введите 'level10'.");
+            level9Completed = true;
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+    private void level10() {
+        if (!level9Completed) {
+            System.out.println("Сначала пройдите уровень 9! Введите 'level9'.");
+            return;
+        }
+
+        System.out.println("Уровень 10: Работа с файлами");
+        System.out.println("Какой класс используется для работы с файлами?");
+        System.out.println("1 - File");
+        System.out.println("2 - Path");
+        System.out.println("3 - Files");
+        System.out.print("Ваш выбор: ");
+        String choice = input.nextLine().trim();
+
+        if (choice.equals("1")) {
+            System.out.println("Поздравляю! вы повторили основные инструменты по джава!");
+        } else {
+            System.out.println("Неверно! Попробуйте снова.");
+        }
+    }
+
+}
