@@ -1,0 +1,16 @@
+import application.game;
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("                                                                      _-_");
+        System.out.println("Добро пожаловать в текстовую игру  МАСТЕР ВОПРОСОВ!                  (    \\");
+        System.out.println("В этой игре мы будем проходится по основам ДЖАВА                          /");
+        System.out.println("В ней будет всего 10 вопросов и это будет очень весело                   / ");
+        System.out.println("Напиши команду  help чтобы ознакомится с другими командами              |");
+        System.out.println("                                                                        .");
+        game game = new game();
+        game.run();
+    }
+}
